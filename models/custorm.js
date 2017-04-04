@@ -1,6 +1,6 @@
 module.exports = function (sequelize, datatype) {
     return sequelize.define('custorm', {
-        id: {
+        key: {
             type: datatype.STRING,
             primaryKey: true
         },

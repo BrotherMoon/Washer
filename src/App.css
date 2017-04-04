@@ -1,0 +1,20 @@
+.ant-layout-header {
+    position: relative;
+    background-color: #fff;
+}
+
+.add {
+/*    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);*/
+}
+
+.ant-layout-content {
+    background-color: #fff;
+    padding: 0 50px;
+}
+
+.ant-layout-footer {
+    background-color: #fff;
+}
