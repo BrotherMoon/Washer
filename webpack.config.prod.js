@@ -38,7 +38,7 @@ module.exports = {
     },
     //输出的文件名 合并以后的js会命名为bundle.js
     output: {
-        path: path.resolve(BUILD_PATH, 'js'),
+        path: path.resolve(BUILD_PATH),
         /*        publicPath: "/output/",*/
         filename: "[name].bundle.js"
     },
@@ -61,17 +61,6 @@ module.exports = {
         ]
     },
     devtool: 'inline-source-map',
-    devServer: {
-        contentBase: BUILD_PATH,
-        hot: true,
-        compress: true,
-        historyApiFallback: true,
-        publicPath: '/js/',
-        port: 3000,
-        /*       proxy: {
-         "/api": "http://localhost:3001"
-         }*/
-    },
     watch: true,
     watchOptions: {
         aggregateTimeout: 300,

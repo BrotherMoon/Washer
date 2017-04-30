@@ -5,7 +5,8 @@
   "scripts": {
     "start": "set NODE_ENV=production&&nodemon server.js",
     "dev": "set NODE_ENV=development&&webpack-dev-server --progress --profile --colors",
-    "build": "set NODE_ENV=production&&webpack --progress --profile --colors --config webpack.production.config.js"
+    "build": "set NODE_ENV=production&&rimraf build&&webpack --progress --profile --colors --config webpack.config.prod.js",
+    "start-prod": "set NODE_ENV=production&&pm2 start server.js --name 'washer'"
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",

@@ -11,7 +11,7 @@ module.exports = function (sequelize, datatype) {
             type: datatype.STRING,
         },
         change_time: {
-            type: datatype.DATE,
+            type: datatype.TEXT,
         },
         change_mile: {
             type: datatype.STRING,

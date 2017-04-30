@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 3003;
 const model = require('./models');
 const JSONUtil = require('./utils/JSONUtil');
 const router = express.Router();
+const uuidV1 = require('uuid/v1');
 
 app.use(compression());
 app.use(logger('dev'));
@@ -29,7 +30,7 @@ app.all('*', function (req, res, next) {
 app.post('/custorm', function (req, res, next) {
     const {id, car_id, nickname, change_time, change_mile, sug_mile, oil_type} = req.body;
     model.custorm.create({
-        id, id,
+        key: uuidV1(),
         car_id: car_id,
         nickname: nickname,
         change_time: change_time,

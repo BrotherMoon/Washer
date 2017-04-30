@@ -28,7 +28,7 @@ var plugins = [
 module.exports = {
     //项目的文件夹 可以直接用文件夹名称 默认会找index.js 也可以确定是哪个文件名字
     entry: {
-        index: ['babel-polyfill', path.resolve(DEV_PATH, 'index.js')],
+        index: ['babel-polyfill', 'react-hot-loader/patch', 'webpack-dev-server/client?http://localhost:3000', 'webpack/hot/only-dev-server', path.resolve(DEV_PATH, 'index.js')],
         vendor: ['react', 'react-dom']
     },
     //输出的文件名 合并以后的js会命名为bundle.js
@@ -61,7 +61,7 @@ module.exports = {
         hot: true,
         compress: true,
         historyApiFallback: true,
-        publicPath: '/js/',
+        publicPath: '/',
         port: 3000
     },
     watch: true,
