@@ -1,41 +1,53 @@
 import React from 'react';
-import {Button, Icon, Layout, message, Input, Table} from 'antd';
+import {Button, Icon, Layout, message, Input, Table, Popconfirm} from 'antd';
 const {Header, Footer, Sider, Content} = Layout;
 const Search = Input.Search;
 
-const columns = [{
-    title: '车牌号码',
-    dataIndex: 'car_id',
-    key: 'car_id',
-}, {
-    title: '客人昵称',
-    dataIndex: 'nickname',
-    key: 'nickname',
-}, {
-    title: '上次更换时间',
-    dataIndex: 'change_time',
-    key: 'change_time',
-}, {
-    title: '上次更换公里数',
-    dataIndex: 'change_mile',
-    key: 'change_mile',
-}, {
-    title: '建议更换公里数',
-    dataIndex: 'sug_mile',
-    key: 'sug_mile',
-}, {
-    title: '机油类型',
-    dataIndex: 'oil_type',
-    key: 'oil_type',
-}];
-
 export default class DataList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.columns = [{
+            title: '车牌号码',
+            dataIndex: 'car_id',
+            key: 'car_id',
+        }, {
+            title: '客人昵称',
+            dataIndex: 'nickname',
+            key: 'nickname',
+        }, {
+            title: '上次更换时间',
+            dataIndex: 'change_time',
+            key: 'change_time',
+        }, {
+            title: '上次更换公里数',
+            dataIndex: 'change_mile',
+            key: 'change_mile',
+        }, {
+            title: '建议更换公里数',
+            dataIndex: 'sug_mile',
+            key: 'sug_mile',
+        }, {
+            title: '机油类型',
+            dataIndex: 'oil_type',
+            key: 'oil_type',
+        }, {
+            title: '',
+            dataIndex: 'operation',
+            render: (text, record, index) => {
+                return <Popconfirm title="确定要删除该用户信息？" onConfirm={() => this.props.onDelete(record.key)}>
+                    <a href="#">删除</a>
+                </Popconfirm>
+            },
+        }];
+    }
+
     static propTypes = {
-        data: React.PropTypes.array.isRequired
+        data: React.PropTypes.array.isRequired,
+        onDelete: React.PropTypes.func.isRequired
     }
 
     render() {
-        const {data} = this.props;
-        return <Table columns={columns} dataSource={data}/>
+        const {data, isRequired} = this.props;
+        return <Table columns={this.columns} dataSource={data}/>
     }
 }

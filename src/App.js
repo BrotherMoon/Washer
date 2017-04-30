@@ -30,7 +30,33 @@ export default class App extends React.Component {
             carID: e.target.value
         })
     }
-
+    handleDelete = (key) => {
+        fetch(`http://localhost:3003/delete`, {
+            method: 'post',
+            headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+            body: `key=${key}`
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    return Promise.reject(response)
+                }
+            })
+            .then(json => {
+                message.success('删除成功');
+                const custormNow = this.state.custorm;
+                const index = custormNow.findIndex((el) => el.key === key);
+                custormNow.splice(index, 1);
+                this.setState({
+                    custorm: custormNow
+                })
+            })
+            .catch(ex => {
+                console.error('parsing failed', ex);
+                message.error('删除失败，请重新再试');
+            });
+    }
     handleSubmit = (custorm) => {
         fetch(`http://localhost:3003/custorm`, {
             method: 'post',
@@ -89,7 +115,8 @@ export default class App extends React.Component {
                         visible={opened}>
                 <Button type={opened ? "danger" : "primary"} onClick={this.handleToggle}>{opened ? "关闭" : "添加"}</Button>
             </Popover></Header>
-            <Content><DataList data={custorm.filter((el) => el.car_id.indexOf(this.state.carID.toUpperCase()) !== -1)}/></Content>
+            <Content><DataList onDelete={this.handleDelete}
+                               data={custorm.filter((el) => el.car_id.indexOf(this.state.carID.toUpperCase()) !== -1)}/></Content>
         </Layout>
     }
 }

@@ -49,10 +49,10 @@ app.get('/custorm', function (req, res, next) {
 });
 
 app.post('/delete', function (req, res, next) {
-    const {id} = req.body;
+    const {key} = req.body;
     model.custorm.destroy({
         where: {
-            id: id
+            key: key
         }
     }).then((result) => {
         res.send(JSONUtil.resObject(JSONUtil.code.success, '', result))
