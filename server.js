@@ -60,7 +60,7 @@ app.post('/delete', function (req, res, next) {
 });
 
 app.post('/update', function (req, res, next) {
-    const {id, car_id, nickname, change_time, change_mile, sug_mile, oil_type} = req.body;
+    const {key, car_id, nickname, change_time, change_mile, sug_mile, oil_type} = req.body;
     model.custorm.update({
         car_id: car_id,
         nickname: nickname,
@@ -70,7 +70,7 @@ app.post('/update', function (req, res, next) {
         oil_type: oil_type
     }, {
         where: {
-            id: id
+            key: key
         }
     }).then((result) => {
         res.send(JSONUtil.resObject(JSONUtil.code.success, '', result))
