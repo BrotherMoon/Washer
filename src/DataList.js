@@ -41,14 +41,14 @@ export default class DataList extends React.Component {
             title: '',
             dataIndex: 'operation',
             render: (text, record, index) => {
-                return <a onClick={() => this.props.toggleVisible(record.key)} href="#">编辑</a>
+                return <Button onClick={() => this.props.toggleVisible(record.key)} type="primary">编辑</Button>
             },
         }, {
             title: '',
             dataIndex: 'operation1',
             render: (text, record, index) => {
                 return <Popconfirm title="确定要删除该用户信息？" onConfirm={() => this.props.onDelete(record.key)}>
-                    <a href="#">删除</a>
+                    <Button type="danger">删除</Button>
                 </Popconfirm>
             },
         }];

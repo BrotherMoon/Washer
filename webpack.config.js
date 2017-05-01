@@ -21,6 +21,9 @@ var plugins = [
         name: 'vendor',
         minChunks: Infinity,
     }),
+    new webpack.DefinePlugin({
+        __DEV__: true
+    }),
     new webpack.HotModuleReplacementPlugin()
 ]
 

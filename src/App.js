@@ -9,6 +9,8 @@ import fetch from 'isomorphic-fetch';
 import DataList from './DataList';
 import AddForm from './AddForm';
 import EditForm from './EditForm';
+import remoteAddress from '../config'
+const address = __DEV__ ? 'localhost:3003' : remoteAddress;
 
 export default class App extends React.Component {
     constructor() {
@@ -55,7 +57,7 @@ export default class App extends React.Component {
     }
     /*删除用户*/
     handleDelete = (key) => {
-        fetch(`http://localhost:3003/delete`, {
+        fetch(`http://${address}/delete`, {
             method: 'post',
             headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
             body: `key=${key}`
@@ -83,7 +85,7 @@ export default class App extends React.Component {
     }
     /*添加用户的请求方法*/
     handleSubmit = (custorm) => {
-        fetch(`http://localhost:3003/custorm`, {
+        fetch(`http://${address}/custorm`, {
             method: 'post',
             headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
             body: `car_id=${custorm.car_id.toUpperCase()}&nickname=${custorm.nickname}&change_time=${custorm.change_time.format('YYYY-MM-DD')}&change_mile=${custorm.change_mile}&sug_mile=${custorm.sug_mile}&oil_type=${custorm.oil_type}`
@@ -96,13 +98,17 @@ export default class App extends React.Component {
                 }
             })
             .then(json => {
-                message.success('添加成功');
-                this.handleToggleOpened();
-                const custormNow = this.state.custorm;
-                custormNow.push(json.data);
-                this.setState({
-                    custorm: custormNow
-                })
+                if (json.errCode == -1) {
+                    message.error(json.errMsg);
+                } else {
+                    message.success('添加成功');
+                    this.handleToggleOpened();
+                    const custormNow = this.state.custorm;
+                    custormNow.push(json.data);
+                    this.setState({
+                        custorm: custormNow
+                    })
+                }
             })
             .catch(ex => {
                 console.error('parsing failed', ex);
@@ -111,11 +117,12 @@ export default class App extends React.Component {
     }
     /*编辑客户信息*/
     handleEdit = (custorm) => {
-        const chosenCustorm = this.state.custorm.find((val) => val.chosen === true);
-        fetch(`http://localhost:3003/update`, {
+        const nowCustorm = this.state.custorm;
+        const chosenCustormIndex = nowCustorm.findIndex((val) => val.chosen === true);
+        fetch(`http://${address}/update`, {
             method: 'post',
             headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-            body: `key=${chosenCustorm.key}&car_id=${custorm.car_id.toUpperCase()}&nickname=${custorm.nickname}&change_time=${custorm.change_time}&change_mile=${custorm.change_mile}&sug_mile=${custorm.sug_mile}&oil_type=${custorm.oil_type}`
+            body: `key=${nowCustorm[chosenCustormIndex].key}&car_id=${custorm.car_id.toUpperCase()}&nickname=${custorm.nickname}&change_time=${custorm.change_time.format('YYYY-MM-DD')}&change_mile=${custorm.change_mile}&sug_mile=${custorm.sug_mile}&oil_type=${custorm.oil_type}`
         })
             .then(response => {
                 if (response.ok) {
@@ -126,7 +133,13 @@ export default class App extends React.Component {
             })
             .then(json => {
                 message.success('编辑成功');
-                console.log(json.data);
+                this.handleToggleVisible();
+                /*编辑成功同时更新前端相关状态*/
+                const time = custorm.change_time.format('YYYY-MM-DD');
+                nowCustorm.splice(chosenCustormIndex, 1, Object.assign(nowCustorm[chosenCustormIndex], custorm, {change_time: time}));
+                this.setState({
+                    custorm: nowCustorm
+                })
             })
             .catch(ex => {
                 console.error('parsing failed', ex);

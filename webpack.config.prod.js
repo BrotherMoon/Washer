@@ -21,6 +21,9 @@ var plugins = [
         name: 'vendor',
         minChunks: Infinity,
     }),
+    new webpack.DefinePlugin({
+        __DEV__: false
+    }),
     new webpack.optimize.UglifyJsPlugin({
         minimize: true,
         compress: {

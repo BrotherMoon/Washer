@@ -16,6 +16,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'build')));
 
 //设置跨域访问
 app.all('*', function (req, res, next) {
@@ -27,18 +28,34 @@ app.all('*', function (req, res, next) {
     next();
 });
 
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
+
 app.post('/custorm', function (req, res, next) {
-    const {id, car_id, nickname, change_time, change_mile, sug_mile, oil_type} = req.body;
-    model.custorm.create({
-        key: uuidV1(),
-        car_id: car_id,
-        nickname: nickname,
-        change_time: change_time,
-        change_mile: change_mile,
-        sug_mile: sug_mile,
-        oil_type: oil_type
-    }).then((result) => {
-        res.send(JSONUtil.resObject(JSONUtil.code.success, '', result))
+    const {car_id, nickname, change_time, change_mile, sug_mile, oil_type} = req.body;
+    model.custorm.findOne({
+        raw: true,
+        where: {
+            car_id: car_id
+        }
+    }).then((custorm) => {
+        console.log(custorm);
+        if (custorm === null) {
+            return model.custorm.create({
+                key: uuidV1(),
+                car_id: car_id,
+                nickname: nickname,
+                change_time: change_time,
+                change_mile: change_mile,
+                sug_mile: sug_mile,
+                oil_type: oil_type
+            }).then((result) => {
+                res.send(JSONUtil.resObject(JSONUtil.code.success, '', result))
+            })
+        } else {
+            res.send(JSONUtil.resObject(JSONUtil.code.error, '该车牌用户已存在，请勿重复创建'))
+        }
     }).catch(err => next(err));
 });
 
