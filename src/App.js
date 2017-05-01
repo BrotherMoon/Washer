@@ -4,13 +4,12 @@ const {Header, Footer, Sider, Content} = Layout;
 const Search = Input.Search;
 import 'antd/dist/antd.css';
 import './App.css';
-import config from '../config';
 import fetch from 'isomorphic-fetch';
 import DataList from './DataList';
 import AddForm from './AddForm';
 import EditForm from './EditForm';
-import remoteAddress from '../config'
-const address = __DEV__ ? 'localhost:3003' : remoteAddress;
+import config from '../config'
+const address = __DEV__ ? 'localhost:3003' : config.serverAddress;
 
 export default class App extends React.Component {
     constructor() {
@@ -147,7 +146,7 @@ export default class App extends React.Component {
             });
     }
     componentDidMount = () => {
-        fetch(`http://localhost:3003/custorm`)
+        fetch(`http://${address}/custorm`)
             .then(response => {
                 if (response.ok) {
                     return response.json();

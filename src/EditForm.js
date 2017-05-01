@@ -29,13 +29,13 @@ class EditForm extends React.Component {
                     {getFieldDecorator('car_id', {
                         initialValue: chosenCustorm.car_id,
                         rules: [{required: true, message: '不能为空'}],
-                    })(<Input prefix={<Icon type="user" style={{fontSize: 13}}/>}
+                    })(<Input prefix={<Icon type="idcard" style={{fontSize: 13}}/>}
                               placeholder="车牌号码"/>)}
                 </FormItem>
                 <FormItem>
                     {getFieldDecorator('nickname', {
                         initialValue: chosenCustorm.nickname,
-                    })(<Input prefix={<Icon type="lock" style={{fontSize: 13}}/>}
+                    })(<Input prefix={<Icon type="user" style={{fontSize: 13}}/>}
                               type="text"
                               placeholder="客人昵称"/>)}
                 </FormItem>
@@ -51,7 +51,7 @@ class EditForm extends React.Component {
                     {getFieldDecorator('change_mile', {
                         initialValue: chosenCustorm.change_mile,
                         rules: [{required: true, message: '不能为空'}],
-                    })(<Input prefix={<Icon type="lock" style={{fontSize: 13}}/>}
+                    })(<Input prefix={<Icon type="line-chart" style={{fontSize: 13}}/>}
                               type="text"
                               placeholder="上次更换公里数"/>)}
                 </FormItem>
@@ -59,7 +59,7 @@ class EditForm extends React.Component {
                     {getFieldDecorator('sug_mile', {
                         initialValue: chosenCustorm.sug_mile,
                         rules: [{required: true, message: '不能为空'}],
-                    })(<Input prefix={<Icon type="lock" style={{fontSize: 13}}/>}
+                    })(<Input prefix={<Icon type="area-chart" style={{fontSize: 13}}/>}
                               type="text"
                               placeholder="建议更换公里数"/>)}
                 </FormItem>
